@@ -9,7 +9,7 @@ A terminal-based personal link manager written in Rust. Save links with tags, se
 ### Using Cargo (recommended)
 
 ```bash
-cargo install linker
+cargo install linker-cli
 ```
 
 > Make sure `~/.cargo/bin` is in your `$PATH`.
@@ -28,11 +28,11 @@ cargo build --release
 ## 🧰 Available Commands
 
 ```bash
-linker add <TITLE> <URL> --tags tag1,tag2
-linker list
-linker search <TEXT>
-linker open <ID>
-linker remove <ID>
+linker-cli add <TITLE> <URL> --tags tag1,tag2
+linker-cli list
+linker-cli search <TEXT>
+linker-cli open <ID>
+linker-cli remove <ID>
 ```
 
 ---
@@ -42,31 +42,31 @@ linker remove <ID>
 ### Add a link
 
 ```bash
-linker add "Rust Docs" https://doc.rust-lang.org --tags rust,docs
+linker-cli add "Rust Docs" https://doc.rust-lang.org --tags rust,docs
 ```
 
 ### List all saved links
 
 ```bash
-linker list
+linker-cli list
 ```
 
 ### Search by text (title, URL, or tags)
 
 ```bash
-linker search rust
+linker-cli search rust
 ```
 
 ### Open a link in the browser
 
 ```bash
-linker open 1
+linker-cli open 1
 ```
 
 ### Remove a link
 
 ```bash
-linker remove 1
+linker-cli remove 1
 ```
 
 ---
