@@ -5,7 +5,10 @@ edition = "2024"
 description = "Link manager from the terminal"
 license = "MIT"
 readme = "README.md"
-repository = ""
+repository = "https://github.com/ChristianRegueiro/linker"
+homepage = "https://github.com/tuusuario/linker"
+keywords = ["cli", "links", "productivity"]
+categories = ["command-line-utilities"]
 
 [dependencies]
 clap = { version = "4.0", features = ["derive"] }
