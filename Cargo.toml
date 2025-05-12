@@ -1,12 +1,12 @@
 [package]
 name = "linker-cli"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 description = "Link manager from the terminal"
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/ChristianRegueiro/linker"
-homepage = "https://github.com/tuusuario/linker"
+homepage = "https://github.com/ChristianRegueiro/linker"
 keywords = ["cli", "links", "productivity"]
 categories = ["command-line-utilities"]
 
