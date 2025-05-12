@@ -430,7 +430,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "linker"
+name = "linker-cli"
 version = "0.1.0"
 dependencies = [
  "chrono",
