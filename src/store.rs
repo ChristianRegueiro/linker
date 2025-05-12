@@ -6,7 +6,7 @@ use dirs::home_dir;
 
 pub fn get_db_path() -> PathBuf {
     home_dir()
-        .expect("Error al cargar la ruta de la db")
+        .expect("Error loading DB route")
         .join(".linker")
         .join(".links.json")
 }
@@ -18,7 +18,7 @@ pub fn load_links() -> LinkDB {
         let content = match fs::read_to_string(&path) {
             Ok(c) => c,
             Err(e) => {
-                eprintln!("Error {}", "{e}".red());
+                eprintln!("Error {}", e.to_string().red());
                 return LinkDB::default();
             }
         };
@@ -43,7 +43,6 @@ pub fn save_links(db: &LinkDB) {
         eprintln!("Error creating directory: {}", dir.display());
     });
 
-    println!("Saving to: {}", path.display());
 
     let data = match serde_json::to_string_pretty(db) {
         Ok(data) => data,

@@ -9,7 +9,7 @@ use crate::{
 
 pub fn add(title: &str, url: &str, tags: &[String]) {
     if Url::parse(url).is_err() {
-        eprintln!("{} URL inválida: {}", "✘".red(), url);
+        eprintln!("{} Invalid URL: {}", "✘".red(), url);
         return;
     }
 
@@ -33,7 +33,7 @@ pub fn list() {
     let db = load_links();
 
     if db.links.is_empty() {
-        println!("{}", "⚠️  No hay enlaces guardados aún.".yellow());
+        println!("{}", "⚠️  There is no saved links yet.".yellow());
         return;
     }
 
@@ -96,7 +96,7 @@ pub fn remove(id: &usize) {
     db.links.retain(|link| link.id != *id); // retain mantiene elementos que conciden
 
     if db.links.len() == initial_len {
-        eprintln!("{} No se encontró ningún enlace con ID {}", "✘".red(), id);
+        eprintln!("{} There is no link with ID: {}", "✘".red(), id);
     } else {
         save_links(&db);
         println!(
