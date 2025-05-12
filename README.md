@@ -2,7 +2,7 @@
 
 A terminal-based personal link manager written in Rust. Save links with tags, search them easily, and open them directly from the command line.
 
-![Crates.io](https://img.shields.io/crates/d/linker)
+![Crates.io](https://img.shields.io/crates/d/linker-cli)
 
 ---
 
