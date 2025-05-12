@@ -99,11 +99,7 @@ pub fn remove(id: &usize) {
         eprintln!("{} There is no link with ID: {}", "✘".red(), id);
     } else {
         save_links(&db);
-        println!(
-            "{} Enlace con ID {} eliminado correctamente",
-            "✔".green(),
-            id
-        );
+        println!("{} Deleted link with ID {}", "✔".green(), id);
     }
 }
 
