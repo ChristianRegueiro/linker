@@ -8,6 +8,12 @@ A terminal-based personal link manager written in Rust. Save links with tags, se
 
 ## 🚀 Installation
 
+### Using yay
+
+```bash
+yay -S linker-cli
+```
+
 ### Using Cargo (recommended)
 
 ```bash
