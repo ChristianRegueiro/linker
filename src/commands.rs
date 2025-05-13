@@ -2,18 +2,13 @@ use chrono::Utc;
 use colored::Colorize;
 use url::Url;
 
-use crate::{
-    models::Link,
-    store::{load_links, save_links},
-};
+use crate::models::{Link, LinkDB};
 
-pub fn add(title: &str, url: &str, tags: &[String]) {
+pub fn add(db: &mut LinkDB, title: &str, url: &str, tags: &[String]) {
     if Url::parse(url).is_err() {
         eprintln!("{} Invalid URL: {}", "✘".red(), url);
         return;
     }
-
-    let mut db = load_links();
 
     let new_id = db.links.iter().map(|l| l.id).max().unwrap_or(0) + 1;
 
@@ -25,13 +20,10 @@ pub fn add(title: &str, url: &str, tags: &[String]) {
         added: Utc::now(),
     };
 
-    db.links.push(link);
-    save_links(&db);
+    db.add_link(link);
 }
 
-pub fn list() {
-    let db = load_links();
-
+pub fn list(db: &LinkDB) {
     if db.links.is_empty() {
         println!("{}", "⚠️  There is no saved links yet.".yellow());
         return;
@@ -40,23 +32,8 @@ pub fn list() {
     pretty_print(&db.links);
 }
 
-pub fn search(query: &str) {
-    let db = load_links();
-
-    let query_lower = query.to_lowercase();
-
-    let results: Vec<_> = db
-        .links
-        .iter()
-        .filter(|link| {
-            link.title.to_lowercase().contains(&query_lower)
-                || link.url.to_lowercase().contains(&query_lower)
-                || link
-                    .tags
-                    .iter()
-                    .any(|tag| tag.to_lowercase().contains(&query_lower))
-        })
-        .collect();
+pub fn search(db: &LinkDB, query: &str) {
+    let results = find_partial_matches(&db.links, query);
 
     if results.is_empty() {
         println!("{} No results for: '{}'", "🕵️".yellow(), query);
@@ -72,34 +49,45 @@ pub fn search(query: &str) {
     pretty_print(results);
 }
 
-pub fn open(id: &usize) {
-    let db = load_links();
+pub fn open(db: &LinkDB, target: &str) {
+    let found = if let Ok(id) = target.parse::<usize>() {
+        db.links.iter().find(|l| l.id == id)
+    } else {
+        db.links
+            .iter()
+            .find(|l| l.title.eq_ignore_ascii_case(target))
+    };
 
-    match db.links.iter().find(|l| l.id == *id) {
-        Some(link) => {
-            println!("{} Opening: {}", "🌐".green(), link.url.underline().blue());
-
-            if let Err(e) = open::that(&link.url) {
-                eprintln!("{} Cannot open in browser: {}", "✘".red(), e);
-            }
+    if let Some(link) = found {
+        println!("{} Opening: {}", "🌐".green(), link.url.underline().blue());
+        if let Err(e) = open::that(&link.url) {
+            eprintln!("{} Cannot open in browser: {}", "✘".red(), e);
         }
-        None => {
-            eprintln!("{} There is no link with id {}", "✘".red(), id);
+        return;
+    }
+
+    let suggestions = find_partial_matches(&db.links, target);
+
+    if suggestions.is_empty() {
+        eprintln!("{} No link found with ID or title: '{}'", "✘".red(), target);
+    } else {
+        eprintln!(
+            "{} No exact match found for '{}', but did you mean:",
+            "🔎".yellow(),
+            target.cyan()
+        );
+        for link in suggestions {
+            println!("  - [{}] {}", link.id.to_string().cyan(), link.title.bold());
         }
     }
 }
 
-pub fn remove(id: &usize) {
-    let mut db = load_links();
-
-    let initial_len = db.links.len();
-    db.links.retain(|link| link.id != *id); // retain mantiene elementos que conciden
-
-    if db.links.len() == initial_len {
-        eprintln!("{} There is no link with ID: {}", "✘".red(), id);
-    } else {
-        save_links(&db);
+pub fn remove(db: &mut LinkDB, id: &usize) {
+    if db.links.iter().any(|link| link.id == *id) {
+        db.remove_link(*id);
         println!("{} Deleted link with ID {}", "✔".green(), id);
+    } else {
+        eprintln!("{} There is no link with ID: {}", "✘".red(), id);
     }
 }
 
@@ -120,4 +108,20 @@ where
 
         println!("{id} {title:25} {url:45} {tags:20} {date}");
     }
+}
+
+pub fn find_partial_matches<'a>(links: &'a [Link], query: &str) -> Vec<&'a Link> {
+    let query_lower = query.to_lowercase();
+
+    links
+        .iter()
+        .filter(|link| {
+            link.title.to_lowercase().contains(&query_lower)
+                || link.url.to_lowercase().contains(&query_lower)
+                || link
+                    .tags
+                    .iter()
+                    .any(|tag| tag.to_lowercase().contains(&query_lower))
+        })
+        .collect()
 }

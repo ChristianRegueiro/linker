@@ -20,7 +20,7 @@ deb: $(BINARY)
 	echo "Section: utils"                             >> $(DEB_DIR)/DEBIAN/control
 	echo "Priority: optional"                         >> $(DEB_DIR)/DEBIAN/control
 	echo "Architecture: amd64"                        >> $(DEB_DIR)/DEBIAN/control
-	echo "Maintainer: Christian Regueiro <tu@email.com>" >> $(DEB_DIR)/DEBIAN/control
+	echo "Maintainer: Christian Regueiro <christianregueiro2001@gmail.com>" >> $(DEB_DIR)/DEBIAN/control
 	echo "Description: Gestor de enlaces desde la terminal" >> $(DEB_DIR)/DEBIAN/control
 
 	dpkg-deb --build $(DEB_DIR)

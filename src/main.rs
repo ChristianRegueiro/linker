@@ -5,10 +5,12 @@ mod store;
 
 use crate::cli::Cli;
 use crate::cli::Commands;
+use crate::models::LinkDB;
 use clap::Parser;
 
 fn main() {
     let cli = Cli::parse();
+    let mut db = LinkDB::new();
 
     match cli.command {
         Commands::Add {
@@ -16,17 +18,17 @@ fn main() {
             ref url,
             ref tags,
         } => {
-            commands::add(title, url, tags);
+            commands::add(&mut db, title, url, tags);
         }
-        Commands::List => commands::list(),
+        Commands::List => commands::list(&db),
         Commands::Search { ref query } => {
-            commands::search(query);
+            commands::search(&db, query);
         }
-        Commands::Open { ref id } => {
-            commands::open(id);
+        Commands::Open { ref target } => {
+            commands::open(&db, target);
         }
         Commands::Remove { ref id } => {
-            commands::remove(id);
+            commands::remove(&mut db, id);
         }
     }
 }
