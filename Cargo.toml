@@ -1,6 +1,6 @@
 [package]
 name = "linker-cli"
-version = "0.1.4"
+version = "0.1.5"
 edition = "2024"
 description = "Link manager from the terminal"
 license = "MIT"
@@ -14,8 +14,8 @@ categories = ["command-line-utilities"]
 clap = { version = "4.0", features = ["derive"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-colored = "2.0"
-open = "4.0"
+colored = "3"
+open = "5"
 url = "2.2"
 chrono = { version = "0.4", features = ["serde"] }
-dirs = "5"
+dirs = "6"
