@@ -4,7 +4,7 @@ A terminal-based personal link manager written in Rust. Save links with tags, se
 
 [![Crates.io](https://img.shields.io/crates/d/linker-cli)](https://crates.io/crates/linker-cli)
 
-<a href="https://ko-fi.com/christianregueiro" target="_blank">
+<a href="https://ko-fi.com/christianregueiro/tip" target="_blank">
   <img src="docs/ko-fi-button.png" alt="Buy Me a Coffee" height="35"/>
 </a>
 
