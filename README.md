@@ -4,6 +4,8 @@ A terminal-based personal link manager written in Rust. Save links with tags, se
 
 [![Crates.io](https://img.shields.io/crates/d/linker-cli)](https://crates.io/crates/linker-cli)
 
+[![ko-fi](docs/ko-fi-button.png)](https://ko-fi.com/christianregueiro)
+
 ---
 
 ## 🚀 Installation
@@ -39,7 +41,7 @@ cargo build --release
 linker-cli add <TITLE> <URL> --tags tag1,tag2
 linker-cli list
 linker-cli search <TEXT>
-linker-cli open <ID>
+linker-cli open <ID or TITLE>
 linker-cli remove <ID>
 ```
 
@@ -69,6 +71,7 @@ linker-cli search rust
 
 ```bash
 linker-cli open 1
+linker-cli open rust
 ```
 
 ### Remove a link
