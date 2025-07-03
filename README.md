@@ -44,6 +44,7 @@ linker-cli add <TITLE> <URL> --tags tag1,tag2
 linker-cli list
 linker-cli search <TEXT>
 linker-cli open <ID or TITLE>
+linker-cli edit <ID or TITLE>
 linker-cli remove <ID>
 ```
 
