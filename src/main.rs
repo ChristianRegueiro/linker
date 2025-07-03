@@ -30,5 +30,8 @@ fn main() {
         Commands::Remove { ref id } => {
             commands::remove(&mut db, id);
         }
+        Commands::Edit { ref target } => {
+            commands::edit(&mut db, target);
+        }
     }
 }

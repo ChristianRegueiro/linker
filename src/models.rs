@@ -2,10 +2,10 @@ use chrono::{DateTime, Utc};
 use colored::Colorize;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Link {
     pub id: usize,
-    pub title: String, // 🆕 Título descriptivo del enlace
+    pub title: String,
     pub url: String,
     pub tags: Vec<String>,
     pub added: DateTime<Utc>,

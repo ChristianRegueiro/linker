@@ -51,5 +51,10 @@ pub enum Commands {
         #[arg(help = "ID number of the link to remove")]
         id: usize,
     },
-}
 
+    #[command(about = "Update a link by ID or title")]
+    Edit {
+        #[arg(help = "ID number or full title of the link to open")]
+        target: String,
+    },
+}

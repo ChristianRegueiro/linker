@@ -1,5 +1,6 @@
 use chrono::Utc;
 use colored::Colorize;
+use std::io::{self, Write};
 use url::Url;
 
 use crate::models::{Link, LinkDB};
@@ -79,6 +80,62 @@ pub fn open(db: &LinkDB, target: &str) {
         for link in suggestions {
             println!("  - [{}] {}", link.id.to_string().cyan(), link.title.bold());
         }
+    }
+}
+
+pub fn edit(db: &mut LinkDB, target: &str) {
+    let found = if let Ok(id) = target.parse::<usize>() {
+        db.links.iter_mut().find(|l| l.id == id)
+    } else {
+        db.links
+            .iter_mut()
+            .find(|l| l.title.eq_ignore_ascii_case(target))
+    };
+
+    if let Some(link) = found {
+        println!(
+            "{} Editing link: [{}] {}",
+            "✏️".yellow(),
+            link.id.to_string().cyan(),
+            link.title.bold()
+        );
+
+        print!("Title [{}]: ", link.title);
+        io::stdout().flush().unwrap();
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).unwrap();
+        let new_title = input.trim();
+        if !new_title.is_empty() {
+            link.title = new_title.to_string();
+        }
+
+        input.clear();
+        print!("URL [{}]: ", link.url);
+        io::stdout().flush().unwrap();
+        io::stdin().read_line(&mut input).unwrap();
+        let new_url = input.trim();
+        if !new_url.is_empty() {
+            link.url = new_url.to_string();
+        }
+
+        input.clear();
+        let current_tags = link.tags.join(", ");
+        print!("Tags (comma-separated) [{}]: ", current_tags);
+        io::stdout().flush().unwrap();
+        io::stdin().read_line(&mut input).unwrap();
+        let new_tags = input.trim();
+        if !new_tags.is_empty() {
+            link.tags = new_tags
+                .split(',')
+                .map(|s| s.trim().to_string())
+                .filter(|s| !s.is_empty())
+                .collect();
+        }
+
+        crate::store::save_links(db);
+        println!("✅ Link updated.");
+    } else {
+        eprintln!("⚠️ Link not found.");
     }
 }
 
