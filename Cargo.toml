@@ -1,6 +1,6 @@
 [package]
 name = "linker-cli"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2024"
 description = "Link manager from the terminal"
 license = "MIT"

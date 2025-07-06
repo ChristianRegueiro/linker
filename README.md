@@ -40,7 +40,7 @@ cargo build --release
 ## 🧰 Available Commands
 
 ```bash
-linker-cli add <TITLE> <URL> --tags tag1,tag2
+linker-cli add <TITLE> <URL> --tags tag1,tag2 --description "Optional description"
 linker-cli list
 linker-cli search <TEXT>
 linker-cli open <ID or TITLE>
@@ -55,7 +55,7 @@ linker-cli remove <ID>
 ### Add a link
 
 ```bash
-linker-cli add "Rust Docs" https://doc.rust-lang.org --tags rust,docs
+linker-cli add "Rust Docs" https://doc.rust-lang.org --tags rust,docs --description "Official Rust documentation"
 ```
 
 ### List all saved links
@@ -81,6 +81,12 @@ linker-cli open rust
 
 ```bash
 linker-cli remove 1
+```
+
+### Edit a link
+
+```bash
+linker-cli edit 1
 ```
 
 ---
