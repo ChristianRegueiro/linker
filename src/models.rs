@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 pub struct Link {
     pub id: usize,
     pub title: String,
+    pub description: Option<String>,
     pub url: String,
     pub tags: Vec<String>,
     pub added: DateTime<Utc>,
@@ -48,17 +49,18 @@ impl LinkDB {
         self.links.retain(|link| link.id != id);
     }
 
-    pub fn search(&self, query: &str) -> Vec<&Link> {
-        self.links
-            .iter()
-            .filter(|link| {
-                link.title.to_lowercase().contains(&query.to_lowercase())
-                    || link.url.to_lowercase().contains(&query.to_lowercase())
-                    || link
-                        .tags
-                        .iter()
-                        .any(|tag| tag.to_lowercase().contains(&query.to_lowercase()))
-            })
-            .collect()
-    }
+    // TODO: Implement search functionality
+    // pub fn search(&self, query: &str) -> Vec<&Link> {
+    //     self.links
+    //         .iter()
+    //         .filter(|link| {
+    //             link.title.to_lowercase().contains(&query.to_lowercase())
+    //                 || link.url.to_lowercase().contains(&query.to_lowercase())
+    //                 || link
+    //                     .tags
+    //                     .iter()
+    //                     .any(|tag| tag.to_lowercase().contains(&query.to_lowercase()))
+    //         })
+    //         .collect()
+    // }
 }

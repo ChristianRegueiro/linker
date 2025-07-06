@@ -15,10 +15,11 @@ fn main() {
     match cli.command {
         Commands::Add {
             ref title,
+            ref description,
             ref url,
             ref tags,
         } => {
-            commands::add(&mut db, title, url, tags);
+            commands::add(&mut db, title, description.as_deref(), url, tags);
         }
         Commands::List => commands::list(&db),
         Commands::Search { ref query } => {

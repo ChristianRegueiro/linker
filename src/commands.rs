@@ -5,7 +5,7 @@ use url::Url;
 
 use crate::models::{Link, LinkDB};
 
-pub fn add(db: &mut LinkDB, title: &str, url: &str, tags: &[String]) {
+pub fn add(db: &mut LinkDB, title: &str, description: Option<&str>, url: &str, tags: &[String]) {
     if Url::parse(url).is_err() {
         eprintln!("{} Invalid URL: {}", "✘".red(), url);
         return;
@@ -16,6 +16,7 @@ pub fn add(db: &mut LinkDB, title: &str, url: &str, tags: &[String]) {
     let link = Link {
         id: new_id,
         title: title.to_string(),
+        description: description.map(|d| d.to_string()),
         url: url.to_string(),
         tags: tags.to_vec(),
         added: Utc::now(),
@@ -109,6 +110,20 @@ pub fn edit(db: &mut LinkDB, target: &str) {
             link.title = new_title.to_string();
         }
 
+        print!(
+            "Description [{}]: ",
+            link.description.as_deref().unwrap_or("-")
+        );
+        io::stdout().flush().unwrap();
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).unwrap();
+        let new_description = input.trim();
+        if !new_description.is_empty() {
+            link.description = Some(new_description.to_string());
+        } else {
+            link.description = None;
+        }
+
         input.clear();
         print!("URL [{}]: ", link.url);
         io::stdout().flush().unwrap();
@@ -155,6 +170,7 @@ where
     for link in items {
         let id = format!("[{:02}]", link.id).cyan();
         let title = link.title.bold();
+        let description = link.description.as_deref().unwrap_or("-").dimmed();
         let url = link.url.underline().blue();
         let tags = if link.tags.is_empty() {
             "-".normal()
@@ -163,7 +179,7 @@ where
         };
         let date = link.added.format("%Y-%m-%d").to_string().dimmed();
 
-        println!("{id} {title:25} {url:45} {tags:20} {date}");
+        println!("{id} {title:25} {description:20} {url:30} {tags:20} {date}");
     }
 }
 

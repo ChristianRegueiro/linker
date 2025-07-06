@@ -19,6 +19,9 @@ pub enum Commands {
         #[arg(help = "Title of the link")]
         title: String,
 
+        #[arg(help = "Description of the link (optional)", required = false, long)]
+        description: Option<String>,
+
         #[arg(help = "The URL to save")]
         url: String,
 
